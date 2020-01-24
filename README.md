@@ -55,5 +55,25 @@ Get creative and think about what may be missing in your deployment pipeline to 
 
 This space intentionally left blank for you notes and feedback!
 
-### 1.
-I
+Hi Sebastian.
+
+Here are my notes regarding the task:
+Unfortunately I will need more time to fully complete the task. Here are my notes:
+## 1
+- For teh first task I provided the unit tests cases how which I would for this class but with out implementation.
+- The point here, that I was mostly working on the higher level of testing.
+- Regarding the refactoring what I would change is this construction of the nested for loops and if statements. It looks not so readable.
+## 2.2
+- For the E2E API tests I took a rst assured as a library. This one based on my experience on of the best for API-Testing for the Java service
+- I have provided the basic set of cases including positive and negative. It can be easily extended based on requirements and needs
+- They can be triggered by mvn integration-test command
+## 3
+- Here i used basic selenium set up with the chrome driver
+- Precondition for those tests that chrome driver should be installed on the machine
+
+##4
+- For the pipeline we could add also:
+  - step with the static code analysis like Sonarcube
+  - step to check on the lisinces of the used libraries
+  - steps with the non functional tests (Security, performance etc.)
+  
