@@ -14,7 +14,15 @@ pipeline {
                  * - providing proper credentials
                  * - also checkout policy
                  * */
-                git 'https://github.com/EgorPopelyaev/coding-challenge-release-engineer.git'
+                checkout(
+                        [$class: 'GitSCM', branches: [[name: '*/master']],
+                         doGenerateSubmoduleConfigurations: false,
+                         extensions: [[$class: 'CleanBeforeCheckout', deleteUntrackedNestedRepositories: true]],
+                         submoduleCfg: [],
+                         userRemoteConfigs: [[credentialsId: '0d7a1aeb-6ab4-4b58-9d3e-5ba775eedfc9',
+                                              url: 'https://github.com/EgorPopelyaev/coding-challenge-release-engineer.git'
+                                             ]]
+                        ])
 
                 /**
                  * on this step we build our app and run the unit tests
