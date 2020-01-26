@@ -3,10 +3,11 @@ package com.ebayk.service;
 import com.ebayk.data.user.User;
 import com.ebayk.data.user.UserRating;
 import com.ebayk.data.user.UserRepository;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.ResponseStatus;
+
 import java.util.ArrayList;
 import java.util.List;
-
-import static java.util.stream.Collectors.toList;
 
 public class RatingAnalyzer {
 
@@ -20,13 +21,8 @@ public class RatingAnalyzer {
     if (ratingCreator != null) {
       for (User ratedUser : userRepository.getUsers()) {
         for (UserRating rating : ratedUser.getRatings()) {
-          if (rating.getRatingCreatorUserId().equals(ratingCreator.getId())) {
-            User user = userRepository.getUser(rating.getRatingCreatorUserId());
-            if (user != null) {
-              ratedUsers.add(ratingCreator);
-            } else {
-              throw new UserNotFoundException(rating.getRatingCreatorUserId());
-            }
+          if (rating.getRatingCreatorUserId().equals(userId)) {
+            ratedUsers.add(ratedUser);
           }
         }
       }
@@ -36,6 +32,7 @@ public class RatingAnalyzer {
     return ratedUsers;
   }
 
+  @ResponseStatus(value = HttpStatus.NOT_FOUND)
   public static class UserNotFoundException extends Exception {
 
     public UserNotFoundException(Integer userId) {

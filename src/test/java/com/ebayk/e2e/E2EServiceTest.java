@@ -1,6 +1,8 @@
 package com.ebayk.e2e;
 
 import io.restassured.RestAssured;
+import io.restassured.response.Response;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -20,18 +22,22 @@ public class E2EServiceTest {
     }
 
     @Test
+    public void getRatedUsers_ResponseBudyIsNotEmpty() {
+        Response response = when().get("/users/3/rated-users").then().statusCode(200).extract().response();
+
+        Assert.assertNotNull(response);
+        Assert.assertEquals("1", response.path("id[0]").toString());
+        Assert.assertEquals("Alice", response.path("name[0]"));
+    }
+
+    @Test
     public void getRatedUsers_shouldReturn404IfUserNotFound() {
         when().get("/users/999/rated-users").then().statusCode(404);
     }
 
     @Test
     public void getRatedUsers_shouldReturn400IfUserIdIsNotInSuitableFormat() {
-        when().get("/users/999/rated-users").then().statusCode(400);
-    }
-
-    @Test
-    public void getRatedUsers_shouldReturn500IfThereIsAnSystemError() {
-        when().get("/users/userIdForSystemError/rated-users").then().statusCode(500);
+        when().get("/users/WrongID/rated-users").then().statusCode(400);
     }
 
     /*
