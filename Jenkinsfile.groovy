@@ -42,7 +42,25 @@ pipeline {
                 //adding this command to copy war to the docker directory to build an image. There should be the better way how to do it but for now we go along with it.
                 sh "cp target/ebayk-0.1.0.war src/main/docker/"
                 sh "docker build -t ebayk -f src/main/docker/Dockerfile ."
+                sh "docker run -d ebayk:latest"
             }
+        }
+        stage('Run E2E tests') {
+            steps {
+                sh "mvn verify -Pe2eTests"
+            }
+            post {
+                success {
+                    junit '**/target/surefire-reports/TEST-*.xml'
+                    archiveArtifacts 'target/*.war'
+                }
+            }
+
+        }
+    }
+    post {
+        always {
+            sh "docker stop \$(docker ps -a -q)"
         }
     }
 }
